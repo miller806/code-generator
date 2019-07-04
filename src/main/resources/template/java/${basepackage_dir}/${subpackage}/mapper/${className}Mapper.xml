@@ -1,0 +1,26 @@
+<#assign className = table.className>
+<#assign classNameLower = className?uncap_first>
+<#assign prefix = "#{">
+<#assign suffix = "}">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${basepackage}.${subpackage}.mapper.${className}Mapper">
+
+    <!-- 属性映射 -->
+   <resultMap id="BaseResultMap" type="${basepackage}.${subpackage}.support.entity.${className}">
+        <#list table.columns as column>
+			<#if column.pk>
+		<id column="${column.sqlName}" jdbcType="${column.sqlTypeName}" property="${column.columnNameLower}" />
+			<#else>
+		<result column="${column.sqlName}" jdbcType="${column.sqlTypeName}" property="${column.columnNameLower}" />
+			</#if>
+		</#list>
+    </resultMap>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        <#list table.columns as column>
+        	<#if column_index gt 0>, </#if>${column.sqlName} AS ${column.columnNameLower}
+		</#list>
+    </sql>
+
+</mapper>
